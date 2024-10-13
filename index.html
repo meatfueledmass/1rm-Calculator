@@ -14,9 +14,10 @@
         <form id="repMaxForm">
             <label for="lift-type">Choose your lift:</label>
             <select id="lift-type">
-                <option value="squat">Squat or Other Lifts</option>
+                <option value="squat">Squats</option>
                 <option value="dips">Weighted Dips/Chin-ups</option>
                 <option value="assisted-dips">Assisted Dips/Chin-ups</option>
+                <option value="other">Other Accessory Lifts</option>
             </select>
 
             <div id="bodyweight-section" style="display: none;">
@@ -29,8 +30,10 @@
                 <input type="number" id="counterbalance" name="counterbalance">
             </div>
 
-            <label for="weight">Weight Lifted (or Added to Dip Belt) in lbs:</label>
-            <input type="number" id="weight" name="weight" required>
+            <div id="weight-section">
+                <label for="weight">Weight Lifted (in lbs):</label>
+                <input type="number" id="weight" name="weight" required>
+            </div>
 
             <label for="reps">Reps Performed:</label>
             <input type="number" id="reps" name="reps" required>
