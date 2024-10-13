@@ -39,7 +39,12 @@ function calculateRepMax() {
         // When calculating percentages, we need to subtract 85% of bodyweight
         const adjustedWeight = function (percent) {
             const total = oneRepMax * percent;
-            return roundToNearest5(total - (bodyweight * 0.85));  // Calculate weight to add
+            const weightToAdd = total - (bodyweight * 0.85);
+            return roundToNearest5(weightToAdd);  // Calculate weight to add
+        };
+
+        const displayWeight = function(weight) {
+            return weight <= 0 ? "Bodyweight Only" : `${weight} lbs`; // Handle negative values
         };
 
         const weight60 = adjustedWeight(0.60);
@@ -53,23 +58,23 @@ function calculateRepMax() {
         const weight100 = adjustedWeight(1.00);
 
         outputMessage = `
-            60% of 1RM: ${weight60} lbs
+            60% of 1RM: ${displayWeight(weight60)}
             <br>
-            65% of 1RM: ${weight65} lbs
+            65% of 1RM: ${displayWeight(weight65)}
             <br>
-            70% of 1RM: ${weight70} lbs
+            70% of 1RM: ${displayWeight(weight70)}
             <br>
-            75% of 1RM: ${weight75} lbs
+            75% of 1RM: ${displayWeight(weight75)}
             <br>
-            80% of 1RM: ${weight80} lbs
+            80% of 1RM: ${displayWeight(weight80)}
             <br>
-            85% of 1RM: ${weight85} lbs
+            85% of 1RM: ${displayWeight(weight85)}
             <br>
-            90% of 1RM: ${weight90} lbs
+            90% of 1RM: ${displayWeight(weight90)}
             <br>
-            95% of 1RM: ${weight95} lbs
+            95% of 1RM: ${displayWeight(weight95)}
             <br>
-            100% of 1RM: ${weight100} lbs
+            100% of 1RM: ${displayWeight(weight100)}
         `;
 
     } else if (liftType === "assisted-dips") {
@@ -80,7 +85,12 @@ function calculateRepMax() {
         const adjustedWeight = function (percent) {
             const total = oneRepMax * percent;
             const counterbalanceToSelect = bodyweight - total;
-            return roundToNearest5(counterbalanceToSelect);  // Calculate correct counterbalance weight
+            if (counterbalanceToSelect <= 0) {
+                // If negative, switch to unassisted and add weight to dip belt
+                return roundToNearest5(Math.abs(counterbalanceToSelect)) + " lbs added";
+            } else {
+                return roundToNearest5(counterbalanceToSelect) + " lbs worth of counterbalance";
+            }
         };
 
         const weight60 = adjustedWeight(0.60);
@@ -94,23 +104,23 @@ function calculateRepMax() {
         const weight100 = adjustedWeight(1.00);
 
         outputMessage = `
-            60% of 1RM: ${weight60} lbs worth of counterbalance
+            60% of 1RM: ${weight60}
             <br>
-            65% of 1RM: ${weight65} lbs worth of counterbalance
+            65% of 1RM: ${weight65}
             <br>
-            70% of 1RM: ${weight70} lbs worth of counterbalance
+            70% of 1RM: ${weight70}
             <br>
-            75% of 1RM: ${weight75} lbs worth of counterbalance
+            75% of 1RM: ${weight75}
             <br>
-            80% of 1RM: ${weight80} lbs worth of counterbalance
+            80% of 1RM: ${weight80}
             <br>
-            85% of 1RM: ${weight85} lbs worth of counterbalance
+            85% of 1RM: ${weight85}
             <br>
-            90% of 1RM: ${weight90} lbs worth of counterbalance
+            90% of 1RM: ${weight90}
             <br>
-            95% of 1RM: ${weight95} lbs worth of counterbalance
+            95% of 1RM: ${weight95}
             <br>
-            100% of 1RM: ${weight100} lbs worth of counterbalance
+            100% of 1RM: ${weight100}
         `;
 
     } else if (liftType === "squat" || liftType === "other") {
