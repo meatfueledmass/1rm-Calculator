@@ -28,25 +28,54 @@ function calculateRepMax() {
     if (liftType === "dips") {
         // For weighted dips/chin-ups, calculate 1RM with bodyweight adjustments
         const totalWeight = (bodyweight * 0.85) + weight;  // 85% of body weight + added weight
-        oneRepMax = totalWeight / repMaxFactor;  // Estimate the 1RM
-        actualMax = oneRepMax - (bodyweight * 0.85);  // Display added weight as the 1RM
+        oneRepMax = totalWeight / repMaxFactor;  // Estimate the total 1RM (total weight)
+        actualMax = oneRepMax - (bodyweight * 0.85);  // Display only added weight as the 1RM
         
+        // When calculating percentages, we need to subtract 85% of bodyweight
+        const adjustedWeight = function (percent) {
+            const total = oneRepMax * percent;
+            return roundToNearest5(total - (bodyweight * 0.85));  // Calculate weight to add
+        };
+
+        const weight65 = adjustedWeight(0.65);
+        const weight70 = adjustedWeight(0.70);
+        const weight75 = adjustedWeight(0.75);
+
+        outputMessage = `
+            Your 1 Rep Max is: ${roundToNearest5(actualMax)} lbs
+            <br><br>
+            8x5@65%: ${weight65} lbs
+            <br>
+            10x4@70%: ${weight70} lbs
+            <br>
+            12x3@75%: ${weight75} lbs
+        `;
+
     } else if (liftType === "assisted-dips") {
         // For assisted dips/chin-ups, subtract the counterbalance from bodyweight
         const totalWeight = bodyweight - counterbalance;
         oneRepMax = totalWeight / repMaxFactor;  // Estimate the 1RM
         actualMax = counterbalance;  // Display the counterbalance as the 1RM
 
+        const weight65 = roundToNearest5(oneRepMax * 0.65);
+        const weight70 = roundToNearest5(oneRepMax * 0.70);
+        const weight75 = roundToNearest5(oneRepMax * 0.75);
+
+        outputMessage = `
+            Your 1 Rep Max is: ${roundToNearest5(actualMax)} lbs
+            <br><br>
+            8x5@65%: ${weight65} lbs worth of counterbalance
+            <br>
+            10x4@70%: ${weight70} lbs worth of counterbalance
+            <br>
+            12x3@75%: ${weight75} lbs worth of counterbalance
+        `;
+
     } else if (liftType === "squat" || liftType === "other") {
         // For squats and other accessory lifts, just calculate the 1RM based on added weight
         oneRepMax = weight / repMaxFactor;
         actualMax = oneRepMax;
-    }
 
-    // Display different output formats based on the lift type
-    let outputMessage;
-    
-    if (liftType === "dips" || liftType === "assisted-dips" || liftType === "squat") {
         const weight65 = roundToNearest5(oneRepMax * 0.65);
         const weight70 = roundToNearest5(oneRepMax * 0.70);
         const weight75 = roundToNearest5(oneRepMax * 0.75);
@@ -59,18 +88,6 @@ function calculateRepMax() {
             10x4@70%: ${weight70} lbs
             <br>
             12x3@75%: ${weight75} lbs
-        `;
-    } else if (liftType === "other") {
-        const weight60 = roundToNearest5(oneRepMax * 0.60);
-        const weight65 = roundToNearest5(oneRepMax * 0.65);
-
-        // Outputs for other accessory lifts
-        outputMessage = `
-            Your 1 Rep Max is: ${roundToNearest5(actualMax)} lbs
-            <br><br>
-            6x8@60%: ${weight60} lbs
-            <br>
-            6x6@65%: ${weight65} lbs
         `;
     }
 
