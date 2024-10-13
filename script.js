@@ -23,21 +23,22 @@ function calculateRepMax() {
     };
 
     const repMaxFactor = percentageTable[reps] || 1.00;
-    oneRepMax = weight / repMaxFactor;
-
+    
     if (liftType === "dips") {
         // For weighted dips/chin-ups, calculate 1RM with bodyweight adjustments
-        const dipWeight = weight + (bodyweight * 0.08);  // Add 8% of bodyweight
-        oneRepMax = dipWeight / repMaxFactor;
-
+        const totalWeight = (bodyweight * 0.85) + weight;  // 85% of body weight + added weight
+        oneRepMax = totalWeight / repMaxFactor;  // Estimate the 1RM
+        
         // When calculating 60-75%, we subtract 85% of bodyweight
         adjustedWeight = function (percent) {
-            return (oneRepMax * percent) - (bodyweight * 0.85);
+            const total = oneRepMax * percent;
+            return total - (bodyweight * 0.85);
         };
-    }
-
-    if (liftType === "squat") {
+    } else if (liftType === "squat") {
         // For squats, just calculate the 1RM based on added weight
+        oneRepMax = weight / repMaxFactor;
+        
+        // Squat percentages don't need to adjust for body weight
         adjustedWeight = function (percent) {
             return oneRepMax * percent;
         };
