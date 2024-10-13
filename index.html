@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 Rep Max Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="calculator-container">
+        <h1>1 Rep Max Calculator</h1>
+
+        <form id="repMaxForm">
+            <label for="lift-type">Choose your lift:</label>
+            <select id="lift-type">
+                <option value="squat">Squat or Other Lifts</option>
+                <option value="dips">Weighted Dips/Chin-ups</option>
+            </select>
+
+            <div id="bodyweight-section" style="display: none;">
+                <label for="bodyweight">Your Bodyweight (in lbs):</label>
+                <input type="number" id="bodyweight" name="bodyweight">
+            </div>
+
+            <label for="weight">Weight Lifted (or Added to Dip Belt) in lbs:</label>
+            <input type="number" id="weight" name="weight" required>
+
+            <label for="reps">Reps Performed:</label>
+            <input type="number" id="reps" name="reps" required>
+
+            <button type="button" onclick="calculateRepMax()">Calculate 1RM</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
