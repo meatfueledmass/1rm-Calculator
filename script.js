@@ -42,25 +42,40 @@ function calculateRepMax() {
             return roundToNearest5(total - (bodyweight * 0.85));  // Calculate weight to add
         };
 
+        const weight60 = adjustedWeight(0.60);
         const weight65 = adjustedWeight(0.65);
         const weight70 = adjustedWeight(0.70);
         const weight75 = adjustedWeight(0.75);
+        const weight80 = adjustedWeight(0.80);
+        const weight85 = adjustedWeight(0.85);
+        const weight90 = adjustedWeight(0.90);
+        const weight95 = adjustedWeight(0.95);
+        const weight100 = adjustedWeight(1.00);
 
         outputMessage = `
-            Your 1 Rep Max is: ${roundToNearest5(actualMax)} lbs
-            <br><br>
+            60% of 1RM: ${weight60} lbs
+            <br>
             65% of 1RM: ${weight65} lbs
             <br>
             70% of 1RM: ${weight70} lbs
             <br>
             75% of 1RM: ${weight75} lbs
+            <br>
+            80% of 1RM: ${weight80} lbs
+            <br>
+            85% of 1RM: ${weight85} lbs
+            <br>
+            90% of 1RM: ${weight90} lbs
+            <br>
+            95% of 1RM: ${weight95} lbs
+            <br>
+            100% of 1RM: ${weight100} lbs
         `;
 
     } else if (liftType === "assisted-dips") {
         // For assisted dips/chin-ups, subtract the counterbalance from bodyweight
         const totalWeight = bodyweight - counterbalance;
         oneRepMax = totalWeight / repMaxFactor;  // Estimate the 1RM
-        actualMax = counterbalance;  // Display the counterbalance as the 1RM
 
         const adjustedWeight = function (percent) {
             const total = oneRepMax * percent;
@@ -68,18 +83,34 @@ function calculateRepMax() {
             return roundToNearest5(counterbalanceToSelect);  // Calculate correct counterbalance weight
         };
 
+        const weight60 = adjustedWeight(0.60);
         const weight65 = adjustedWeight(0.65);
         const weight70 = adjustedWeight(0.70);
         const weight75 = adjustedWeight(0.75);
+        const weight80 = adjustedWeight(0.80);
+        const weight85 = adjustedWeight(0.85);
+        const weight90 = adjustedWeight(0.90);
+        const weight95 = adjustedWeight(0.95);
+        const weight100 = adjustedWeight(1.00);
 
         outputMessage = `
-            Your 1 Rep Max is: ${roundToNearest5(actualMax)} lbs of counterbalance
-            <br><br>
+            60% of 1RM: ${weight60} lbs worth of counterbalance
+            <br>
             65% of 1RM: ${weight65} lbs worth of counterbalance
             <br>
             70% of 1RM: ${weight70} lbs worth of counterbalance
             <br>
             75% of 1RM: ${weight75} lbs worth of counterbalance
+            <br>
+            80% of 1RM: ${weight80} lbs worth of counterbalance
+            <br>
+            85% of 1RM: ${weight85} lbs worth of counterbalance
+            <br>
+            90% of 1RM: ${weight90} lbs worth of counterbalance
+            <br>
+            95% of 1RM: ${weight95} lbs worth of counterbalance
+            <br>
+            100% of 1RM: ${weight100} lbs worth of counterbalance
         `;
 
     } else if (liftType === "squat" || liftType === "other") {
@@ -89,13 +120,32 @@ function calculateRepMax() {
 
         const weight60 = roundToNearest5(oneRepMax * 0.60);
         const weight65 = roundToNearest5(oneRepMax * 0.65);
+        const weight70 = roundToNearest5(oneRepMax * 0.70);
+        const weight75 = roundToNearest5(oneRepMax * 0.75);
+        const weight80 = roundToNearest5(oneRepMax * 0.80);
+        const weight85 = roundToNearest5(oneRepMax * 0.85);
+        const weight90 = roundToNearest5(oneRepMax * 0.90);
+        const weight95 = roundToNearest5(oneRepMax * 0.95);
+        const weight100 = roundToNearest5(oneRepMax * 1.00);
 
         outputMessage = `
-            Your 1 Rep Max is: ${roundToNearest5(actualMax)} lbs
-            <br><br>
             60% of 1RM: ${weight60} lbs
             <br>
             65% of 1RM: ${weight65} lbs
+            <br>
+            70% of 1RM: ${weight70} lbs
+            <br>
+            75% of 1RM: ${weight75} lbs
+            <br>
+            80% of 1RM: ${weight80} lbs
+            <br>
+            85% of 1RM: ${weight85} lbs
+            <br>
+            90% of 1RM: ${weight90} lbs
+            <br>
+            95% of 1RM: ${weight95} lbs
+            <br>
+            100% of 1RM: ${weight100} lbs
         `;
     }
 
