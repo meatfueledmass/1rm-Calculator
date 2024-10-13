@@ -1,27 +1,28 @@
 function calculateRepMax() {
     const liftType = document.getElementById('lift-type').value;
-    const weight = parseFloat(document.getElementById('weight').value);
+    const weight = parseFloat(document.getElementById('weight').value); // Added weight
     const reps = parseInt(document.getElementById('reps').value);
     const bodyweight = parseFloat(document.getElementById('bodyweight').value) || 0;
 
     let oneRepMax = 0;
     let adjustedWeight = 0;
 
-    // Use the percentage table to estimate the 1RM based on reps performed
+    // Percentage table based on reps performed
     const percentageTable = {
-        1: 1.00,
-        2: 0.95,
-        3: 0.93,
-        4: 0.90,
-        5: 0.87,
-        6: 0.85,
-        7: 0.83,
-        8: 0.80,
-        9: 0.77,
-        10: 0.75,
-        12: 0.70
+        1: 1.00,  // 100% of 1RM
+        2: 0.95,  // 95% of 1RM
+        3: 0.93,  // 93% of 1RM
+        4: 0.90,  // 90% of 1RM
+        5: 0.87,  // 87% of 1RM
+        6: 0.85,  // 85% of 1RM
+        7: 0.83,  // 83% of 1RM
+        8: 0.80,  // 80% of 1RM
+        9: 0.77,  // 77% of 1RM
+        10: 0.75, // 75% of 1RM
+        12: 0.70  // 70% of 1RM
     };
 
+    // Get the factor based on reps
     const repMaxFactor = percentageTable[reps] || 1.00;
 
     if (liftType === "dips") {
