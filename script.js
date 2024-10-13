@@ -1,4 +1,5 @@
 function calculateRepMax() {
+    // Get the selected lift type and input values
     const liftType = document.getElementById('lift-type').value;
     const weight = parseFloat(document.getElementById('weight').value); // Added weight or counterbalance
     const reps = parseInt(document.getElementById('reps').value);
@@ -7,6 +8,9 @@ function calculateRepMax() {
 
     let oneRepMax = 0;
     let actualMax = 0; // For displaying the added weight for weighted dips/chins and counterbalance for assisted dips
+
+    // Ensure all variables are reset before calculation
+    let outputMessage = '';
 
     // Percentage table based on reps performed
     const percentageTable = {
@@ -23,8 +27,9 @@ function calculateRepMax() {
         12: 0.70  // 70% of 1RM
     };
 
-    const repMaxFactor = percentageTable[reps] || 1.00;
+    const repMaxFactor = percentageTable[reps] || 1.00; // Get the percentage based on reps performed
 
+    // Calculate 1RM based on selected lift type
     if (liftType === "dips") {
         // For weighted dips/chin-ups, calculate 1RM with bodyweight adjustments
         const totalWeight = (bodyweight * 0.85) + weight;  // 85% of body weight + added weight
@@ -91,6 +96,7 @@ function calculateRepMax() {
         `;
     }
 
+    // Display the output message
     document.getElementById('result').innerHTML = outputMessage;
 }
 
