@@ -6,7 +6,7 @@ function calculateRepMax() {
     const counterbalance = parseFloat(document.getElementById('counterbalance').value) || 0; // Counterbalance for assisted dips
 
     let oneRepMax = 0;
-    let adjustedWeight = 0;
+    let actualMax = 0; // For displaying the added weight for weighted dips/chins and counterbalance for assisted dips
 
     // Percentage table based on reps performed
     const percentageTable = {
@@ -29,39 +29,48 @@ function calculateRepMax() {
         // For weighted dips/chin-ups, calculate 1RM with bodyweight adjustments
         const totalWeight = (bodyweight * 0.85) + weight;  // 85% of body weight + added weight
         oneRepMax = totalWeight / repMaxFactor;  // Estimate the 1RM
+        actualMax = oneRepMax - (bodyweight * 0.85);  // Display added weight as the 1RM
         
     } else if (liftType === "assisted-dips") {
         // For assisted dips/chin-ups, subtract the counterbalance from bodyweight
         const totalWeight = bodyweight - counterbalance;
         oneRepMax = totalWeight / repMaxFactor;  // Estimate the 1RM
+        actualMax = counterbalance;  // Display the counterbalance as the 1RM
 
     } else if (liftType === "squat" || liftType === "other") {
         // For squats and other accessory lifts, just calculate the 1RM based on added weight
         oneRepMax = weight / repMaxFactor;
+        actualMax = oneRepMax;
     }
 
     // Display different output formats based on the lift type
     let outputMessage;
     
     if (liftType === "dips" || liftType === "assisted-dips" || liftType === "squat") {
-        // Outputs for dips, chin-ups, and squats
+        const weight65 = roundToNearest5(oneRepMax * 0.65);
+        const weight70 = roundToNearest5(oneRepMax * 0.70);
+        const weight75 = roundToNearest5(oneRepMax * 0.75);
+
         outputMessage = `
-            Your 1 Rep Max is: ${roundToNearest5(oneRepMax)} lbs
+            Your 1 Rep Max is: ${roundToNearest5(actualMax)} lbs
             <br><br>
-            8x5@65%
+            8x5@65%: ${weight65} lbs
             <br>
-            10x4@70%
+            10x4@70%: ${weight70} lbs
             <br>
-            12x3@75%
+            12x3@75%: ${weight75} lbs
         `;
     } else if (liftType === "other") {
+        const weight60 = roundToNearest5(oneRepMax * 0.60);
+        const weight65 = roundToNearest5(oneRepMax * 0.65);
+
         // Outputs for other accessory lifts
         outputMessage = `
-            Your 1 Rep Max is: ${roundToNearest5(oneRepMax)} lbs
+            Your 1 Rep Max is: ${roundToNearest5(actualMax)} lbs
             <br><br>
-            6x6@65%
+            6x8@60%: ${weight60} lbs
             <br>
-            6x8@60%
+            6x6@65%: ${weight65} lbs
         `;
     }
 
@@ -85,8 +94,10 @@ document.getElementById('lift-type').addEventListener('change', function() {
 
     if (liftType === 'assisted-dips') {
         document.getElementById('counterbalance-section').style.display = 'block';
+        document.getElementById('weight-section').style.display = 'none';
     } else {
         document.getElementById('counterbalance-section').style.display = 'none';
+        document.getElementById('weight-section').style.display = 'block';
     }
 
     if (liftType === 'squat' || liftType === 'other') {
