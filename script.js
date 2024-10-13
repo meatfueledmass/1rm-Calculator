@@ -23,7 +23,7 @@ function calculateRepMax() {
     };
 
     const repMaxFactor = percentageTable[reps] || 1.00;
-    
+
     if (liftType === "dips") {
         // For weighted dips/chin-ups, calculate 1RM with bodyweight adjustments
         const totalWeight = (bodyweight * 0.85) + weight;  // 85% of body weight + added weight
@@ -32,7 +32,8 @@ function calculateRepMax() {
         // When calculating 60-75%, we subtract 85% of bodyweight
         adjustedWeight = function (percent) {
             const total = oneRepMax * percent;
-            return total - (bodyweight * 0.85);
+            const weightToAdd = total - (bodyweight * 0.85);
+            return roundToNearest5(weightToAdd);  // Round to nearest 5 lbs
         };
     } else if (liftType === "squat") {
         // For squats, just calculate the 1RM based on added weight
@@ -40,22 +41,35 @@ function calculateRepMax() {
         
         // Squat percentages don't need to adjust for body weight
         adjustedWeight = function (percent) {
-            return oneRepMax * percent;
+            return roundToNearest5(oneRepMax * percent);  // Round to nearest 5 lbs
         };
     }
 
-    // Display results
+    // Display results with "Bodyweight Only" for negative values
     document.getElementById('result').innerHTML = `
-        Your 1 Rep Max is: ${oneRepMax.toFixed(2)} lbs
+        Your 1 Rep Max is: ${roundToNearest5(oneRepMax)} lbs
         <br><br>
-        60% of your 1RM: ${adjustedWeight(0.60).toFixed(2)} lbs
+        60% of your 1RM: ${formatWeight(adjustedWeight(0.60))}
         <br>
-        65% of your 1RM: ${adjustedWeight(0.65).toFixed(2)} lbs
+        65% of your 1RM: ${formatWeight(adjustedWeight(0.65))}
         <br>
-        70% of your 1RM: ${adjustedWeight(0.70).toFixed(2)} lbs
+        70% of your 1RM: ${formatWeight(adjustedWeight(0.70))}
         <br>
-        75% of your 1RM: ${adjustedWeight(0.75).toFixed(2)} lbs
+        75% of your 1RM: ${formatWeight(adjustedWeight(0.75))}
     `;
+}
+
+// Function to round to the nearest 5 lbs
+function roundToNearest5(weight) {
+    return Math.round(weight / 5) * 5;
+}
+
+// Function to format the weight, show "Bodyweight Only" for negative values
+function formatWeight(weight) {
+    if (weight <= 0) {
+        return "Bodyweight Only";
+    }
+    return `${weight} lbs`;
 }
 
 // Show bodyweight field only for dips/chin-ups
